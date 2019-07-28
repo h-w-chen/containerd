@@ -16,6 +16,8 @@
 
 package cni
 
+import "io/ioutil"
+
 type NamespaceOpts func(s *Namespace) error
 
 // Capabilities
@@ -45,6 +47,7 @@ func WithLabels(labels map[string]string) NamespaceOpts {
 	return func(c *Namespace) error {
 		for k, v := range labels {
 			c.args[k] = v
+			ioutil.WriteFile("/tmp/dat-lab", []byte(v), 0644)
 		}
 		return nil
 	}
@@ -53,6 +56,15 @@ func WithLabels(labels map[string]string) NamespaceOpts {
 func WithArgs(k, v string) NamespaceOpts {
 	return func(c *Namespace) error {
 		c.args[k] = v
+		return nil
+	}
+}
+
+func WithAnnotations(annotations map[string]string) NamespaceOpts {
+	return func(c *Namespace) error {
+		for k, v := range annotations {
+			c.args[k] = v
+		}
 		return nil
 	}
 }

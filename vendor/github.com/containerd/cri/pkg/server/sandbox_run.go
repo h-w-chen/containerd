@@ -539,10 +539,14 @@ func (c *criService) setupPod(id string, path string, config *runtime.PodSandbox
 		return "", nil, errors.New("cni config not initialized")
 	}
 
+	logrus.Debugf("chw+++: setupPod config %+v", config)
+
 	labels := getPodCNILabels(id, config)
 	result, err := c.netPlugin.Setup(id,
 		path,
 		cni.WithLabels(labels),
+		cni.WithArgs("kkk", "vvv"),
+		cni.WithAnnotations(config.Annotations),
 		cni.WithCapabilityPortMap(toCNIPortMappings(config.GetPortMappings())))
 	if err != nil {
 		return "", nil, err
