@@ -169,6 +169,7 @@ func (c *criService) teardownPod(id string, path string, config *runtime.PodSand
 	return c.netPlugin.Remove(id,
 		path,
 		cni.WithLabels(labels),
+		cni.WithLabels(config.Annotations),
 		cni.WithCapabilityPortMap(toCNIPortMappings(config.GetPortMappings())))
 }
 

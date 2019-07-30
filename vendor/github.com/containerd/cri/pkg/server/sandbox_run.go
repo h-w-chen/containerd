@@ -543,6 +543,7 @@ func (c *criService) setupPod(id string, path string, config *runtime.PodSandbox
 	result, err := c.netPlugin.Setup(id,
 		path,
 		cni.WithLabels(labels),
+		cni.WithLabels(config.Annotations),
 		cni.WithCapabilityPortMap(toCNIPortMappings(config.GetPortMappings())))
 	if err != nil {
 		return "", nil, err
