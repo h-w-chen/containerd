@@ -56,3 +56,15 @@ func WithArgs(k, v string) NamespaceOpts {
 		return nil
 	}
 }
+
+// WithAnnoOfAlktron picks only Alktron restricted annotation records (VPC, NICs, Tenant only)
+func WithAnnoOfAlktron(labels map[string]string) NamespaceOpts {
+	return func(c *Namespace) error {
+		for k, v := range labels {
+			if k == "VPC" || k == "NICs" || k == "Tenant" {
+				c.args[k] = v
+			}
+		}
+		return nil
+	}
+}
